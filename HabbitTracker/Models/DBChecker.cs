@@ -17,6 +17,9 @@ namespace HabitTracker.Models
                 connection.Open();
                 var habitTableCmd = connection.CreateCommand();
                 var occurencesTableCmd = connection.CreateCommand();
+                var clearTables = connection.CreateCommand();
+                clearTables.CommandText = "DROP TABLE IF EXISTS occurences; DROP TABLE IF EXISTS habits;";
+                clearTables.ExecuteNonQuery();
 
                 habitTableCmd.CommandText =
                     @"CREATE TABLE IF NOT EXISTS habits(
@@ -47,6 +50,7 @@ namespace HabitTracker.Models
             using (var connection = new SqliteConnection(connectionString))
             {
                 connection.Open();
+
                 var habitsToAdd = connection.CreateCommand();
                 habitsToAdd.CommandText =
                     @"INSERT OR IGNORE INTO habits(habit_name, quantity_name, default_quantity) VALUES('Water drank', 'Glasses', 1);
@@ -75,38 +79,38 @@ namespace HabitTracker.Models
 ";
                 occurencesToAdd.ExecuteNonQuery();
 
-                var verifyInput = connection.CreateCommand();
-                verifyInput.CommandText = @"select * from occurences;";
-                List<Occurences> tableData = new();
+                //var verifyInput = connection.CreateCommand();
+                //verifyInput.CommandText = @"select * from occurences;";
+                //List<Occurence> tableData = new();
 
-                SqliteDataReader reader = verifyInput.ExecuteReader();
+                //SqliteDataReader reader = verifyInput.ExecuteReader();
 
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        tableData.Add(new Occurences
-                        {
-                            occurenceId = reader.GetInt32(0),
-                            habitId = reader.GetInt32(1),
-                            habitQuantity = reader.GetInt32(2),
-                            Date = DateTime.ParseExact(reader.GetString(3), "yyyy-MM-dd", new CultureInfo("en-US"))
-                        });
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("No rows found");
-                }
+                //if (reader.HasRows)
+                //{
+                //    while (reader.Read())
+                //    {
+                //        tableData.Add(new Occurence
+                //        {
+                //            occurenceId = reader.GetInt32(0),
+                //            habitId = reader.GetInt32(1),
+                //            habitQuantity = reader.GetInt32(2),
+                //            Date = DateTime.ParseExact(reader.GetString(3), "yyyy-MM-dd", new CultureInfo("en-US"))
+                //        });
+                //    }
+                //}
+                //else
+                //{
+                //    Console.WriteLine("No rows found");
+                //}
 
-                connection.Close();
+                //connection.Close();
 
-                Console.WriteLine("------------------------------------------");
-                foreach (var occurences in tableData)
-                {
-                    Console.WriteLine($"{occurences.habitId} - {occurences.Date.ToString("yyyy-MM-dd")} - Quantity: {occurences.habitQuantity}");
-                }
-                Console.WriteLine("------------------------------------------");
+                //Console.WriteLine("------------------------------------------");
+                //foreach (var occurences in tableData)
+                //{
+                //    Console.WriteLine($"{occurences.habitId} - {occurences.Date.ToString("yyyy-MM-dd")} - Quantity: {occurences.habitQuantity}");
+                //}
+                //Console.WriteLine("------------------------------------------");
 
             }
 

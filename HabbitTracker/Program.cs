@@ -1,4 +1,4 @@
-﻿using static DBChecker;
+﻿using HabitTracker.Models;
 
 public class Program
 {
@@ -7,5 +7,8 @@ public class Program
         DBChecker dbChecker = new DBChecker();
         dbChecker.InitializeDB();
         dbChecker.SeedDB();
+
+        MenuController menuController = new MenuController();
+        menuController.run();
     }
 }

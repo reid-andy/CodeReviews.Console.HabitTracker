@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace HabbitTracker.Models
 {
-    internal class Occurences
+    internal class Occurence
     {
         public int occurenceId { get; set; }
         public int habitId { get; set; }
