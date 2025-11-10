@@ -1,2 +1,11 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using static DBChecker;
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        DBChecker dbChecker = new DBChecker();
+        dbChecker.InitializeDB();
+        dbChecker.SeedDB();
+    }
+}
