@@ -53,5 +53,41 @@ namespace HabbitTracker.Models
                 return result;
             }
         }
+
+        public List<Habit> GetAllHabits()
+        {
+
+            using (var connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = @"select * from habits;";
+
+                SqliteDataReader reader = command.ExecuteReader();
+
+                List<Habit> result = new List<Habit>();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        result.Add(new Habit
+                        {
+                            habitId = reader.GetInt32(0),
+                            habitName = reader.GetString(1),
+                            quantityName = reader.GetString(2),
+                            defaultQuantity = reader.GetInt32(3)
+                        });
+                    }
+
+
+                }
+                else
+                {
+                    Console.WriteLine("No habits found.");
+                }
+                return result;
+            }
+
+        }
     }
 }

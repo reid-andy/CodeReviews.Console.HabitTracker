@@ -1,4 +1,5 @@
 using HabbitTracker.Models;
+using HabbitTracker.Views;
 
 public class MenuController
 {
@@ -15,6 +16,7 @@ public class MenuController
             Console.WriteLine("Type 2 to Log a Habit");
             Console.WriteLine("Type 3 to Delete a Record");
             Console.WriteLine("Type 4 to Update a Record");
+            Console.WriteLine("Type 5 to Add a New Habit");
             Console.WriteLine("Type 0 to Exit");
             Console.WriteLine("------------------------------\n");
 
@@ -22,8 +24,6 @@ public class MenuController
             switch (userInput)
             {
                 case "0":
-                    Console.WriteLine("Goodbye!");
-                    Thread.Sleep(1000);
                     exit = true;
                     break;
                 case "1":
@@ -31,13 +31,17 @@ public class MenuController
                     selectFromDb.GetAllRecords();
                     break;
                 case "2":
-                    // Log an occurence
+                    LogOccurence logOccurence = new LogOccurence();
+                    logOccurence.RenderLogOccurance();
                     break;
                 case "3":
                     // Delete an occurence
                     break;
                 case "4":
                     // Update an occurence
+                    break;
+                case "5":
+                    // Add new habit
                     break;
                 default:
                     Console.WriteLine("\nInvalid command. Please enter a number from 0 to 4\n");
