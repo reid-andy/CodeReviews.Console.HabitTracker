@@ -6,7 +6,7 @@ namespace HabbitTracker.Models
     internal class InsertIntoDB
     {
         string connectionString = @"Data Source=habit-tracker.db";
-        public void LogAnOccurance()
+        public void LogAnOccurrence()
         {
             using (var connection = new SqliteConnection(connectionString))
             {

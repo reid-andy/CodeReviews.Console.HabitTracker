@@ -16,9 +16,9 @@ namespace HabitTracker.Models
             {
                 connection.Open();
                 var habitTableCmd = connection.CreateCommand();
-                var occurencesTableCmd = connection.CreateCommand();
+                var occurrencesTableCmd = connection.CreateCommand();
                 var clearTables = connection.CreateCommand();
-                clearTables.CommandText = "DROP TABLE IF EXISTS occurences; DROP TABLE IF EXISTS habits;";
+                clearTables.CommandText = "DROP TABLE IF EXISTS occurrences;";
                 clearTables.ExecuteNonQuery();
 
                 habitTableCmd.CommandText =
@@ -29,9 +29,9 @@ namespace HabitTracker.Models
                 default_quantity 
                 )";
 
-                occurencesTableCmd.CommandText =
-                    @"CREATE TABLE IF NOT EXISTS occurences (
-                occurence_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                occurrencesTableCmd.CommandText =
+                    @"CREATE TABLE IF NOT EXISTS occurrences (
+                occurrence_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                 habit_id INTEGER, 
                 habit_quantity INTEGER NOT NULL,
                 date TEXT NOT NULL,
@@ -39,7 +39,7 @@ namespace HabitTracker.Models
                 )";
 
                 var result = habitTableCmd.ExecuteNonQuery();
-                occurencesTableCmd.ExecuteNonQuery();
+                occurrencesTableCmd.ExecuteNonQuery();
 
                 connection.Close();
             }
@@ -60,28 +60,28 @@ namespace HabitTracker.Models
 ";
                 habitsToAdd.ExecuteNonQuery();
 
-                var occurencesToAdd = connection.CreateCommand();
-                occurencesToAdd.CommandText =
+                var occurrencesToAdd = connection.CreateCommand();
+                occurrencesToAdd.CommandText =
                     $@"
-                INSERT INTO occurences(habit_id, habit_quantity, date) VALUES(1, 1, '2025-11-02');
-                INSERT INTO occurences(habit_id, habit_quantity, date) VALUES(1, 1, '2025-11-04');
-                INSERT INTO occurences(habit_id, habit_quantity, date) VALUES(1, 1, '2025-11-06');
-                INSERT INTO occurences(habit_id, habit_quantity, date) VALUES(1, 1, '2025-11-04');
-                INSERT INTO occurences(habit_id, habit_quantity, date) VALUES(2, 1, '2025-11-03');
-                INSERT INTO occurences(habit_id, habit_quantity, date) VALUES(2, 2, '2025-11-04');
-                INSERT INTO occurences(habit_id, habit_quantity, date) VALUES(2, 3, '2025-11-05');
-                INSERT INTO occurences(habit_id, habit_quantity, date) VALUES(2, 13, '2025-11-01');
-                INSERT INTO occurences(habit_id, habit_quantity, date) VALUES(3, 4, '2025-11-08');
-                INSERT INTO occurences(habit_id, habit_quantity, date) VALUES(3, 9, '2025-11-08');
-                INSERT INTO occurences(habit_id, habit_quantity, date) VALUES(4, 10, '2025-11-01');
-                INSERT INTO occurences(habit_id, habit_quantity, date) VALUES(4, 37, '2025-11-03');
-                INSERT INTO occurences(habit_id, habit_quantity, date) VALUES(4, 54, '2025-11-07');
+                INSERT INTO occurrences(habit_id, habit_quantity, date) VALUES(1, 1, '2025-11-02');
+                INSERT INTO occurrences(habit_id, habit_quantity, date) VALUES(1, 1, '2025-11-04');
+                INSERT INTO occurrences(habit_id, habit_quantity, date) VALUES(1, 1, '2025-11-06');
+                INSERT INTO occurrences(habit_id, habit_quantity, date) VALUES(1, 1, '2025-11-04');
+                INSERT INTO occurrences(habit_id, habit_quantity, date) VALUES(2, 1, '2025-11-03');
+                INSERT INTO occurrences(habit_id, habit_quantity, date) VALUES(2, 2, '2025-11-04');
+                INSERT INTO occurrences(habit_id, habit_quantity, date) VALUES(2, 3, '2025-11-05');
+                INSERT INTO occurrences(habit_id, habit_quantity, date) VALUES(2, 13, '2025-11-01');
+                INSERT INTO occurrences(habit_id, habit_quantity, date) VALUES(3, 4, '2025-11-08');
+                INSERT INTO occurrences(habit_id, habit_quantity, date) VALUES(3, 9, '2025-11-08');
+                INSERT INTO occurrences(habit_id, habit_quantity, date) VALUES(4, 10, '2025-11-01');
+                INSERT INTO occurrences(habit_id, habit_quantity, date) VALUES(4, 37, '2025-11-03');
+                INSERT INTO occurrences(habit_id, habit_quantity, date) VALUES(4, 54, '2025-11-07');
 ";
-                occurencesToAdd.ExecuteNonQuery();
+                occurrencesToAdd.ExecuteNonQuery();
 
                 //var verifyInput = connection.CreateCommand();
-                //verifyInput.CommandText = @"select * from occurences;";
-                //List<Occurence> tableData = new();
+                //verifyInput.CommandText = @"select * from occurrences;";
+                //List<Occurrence> tableData = new();
 
                 //SqliteDataReader reader = verifyInput.ExecuteReader();
 
@@ -89,9 +89,9 @@ namespace HabitTracker.Models
                 //{
                 //    while (reader.Read())
                 //    {
-                //        tableData.Add(new Occurence
+                //        tableData.Add(new Occurrence
                 //        {
-                //            occurenceId = reader.GetInt32(0),
+                //            occurrenceId = reader.GetInt32(0),
                 //            habitId = reader.GetInt32(1),
                 //            habitQuantity = reader.GetInt32(2),
                 //            Date = DateTime.ParseExact(reader.GetString(3), "yyyy-MM-dd", new CultureInfo("en-US"))
@@ -106,9 +106,9 @@ namespace HabitTracker.Models
                 //connection.Close();
 
                 //Console.WriteLine("------------------------------------------");
-                //foreach (var occurences in tableData)
+                //foreach (var occurrences in tableData)
                 //{
-                //    Console.WriteLine($"{occurences.habitId} - {occurences.Date.ToString("yyyy-MM-dd")} - Quantity: {occurences.habitQuantity}");
+                //    Console.WriteLine($"{occurrences.habitId} - {occurrences.Date.ToString("yyyy-MM-dd")} - Quantity: {occurrences.habitQuantity}");
                 //}
                 //Console.WriteLine("------------------------------------------");
 

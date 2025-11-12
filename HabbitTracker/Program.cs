@@ -1,4 +1,5 @@
-﻿using HabitTracker.Models;
+﻿using HabitTracker.Controllers;
+using HabitTracker.Models;
 
 public class Program
 {

@@ -1,9 +1,9 @@
 ﻿
 namespace HabbitTracker.Models
 {
-    internal class Occurence
+    internal class Occurrence
     {
-        public int occurenceId { get; set; }
+        public int occurrenceId { get; set; }
         public int habitId { get; set; }
         public int habitQuantity { get; set; }
         public DateTime Date { get; set; }

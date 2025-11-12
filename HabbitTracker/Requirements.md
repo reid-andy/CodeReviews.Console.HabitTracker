@@ -1,5 +1,5 @@
 ## Requirements:
-- Log occurances of a habit 
+- Log occurrences of a habit 
  - Tracked by QTY not time
  - Users can input the date
  - Use Sqlite (build one with tables if not exists)
