@@ -1,6 +1,7 @@
 ﻿using HabbitTracker.Models;
 using HabitTracker.Controllers;
 using HabitTracker.Models;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 
 namespace HabbitTracker.Views
@@ -34,15 +35,45 @@ namespace HabbitTracker.Views
 
         public string? LogOccurrence(List<Habit> habits)
         {
-            string? userInput;
+            string? userHabitSelection;
+            string? userDateSelection;
+            string? userHabitQuantity;
+            DateTime dateTime = DateTime.Now;
             Console.WriteLine("Which habit would you like to log?");
             for (int i = 0; i < habits.Count; i++)
             {
                 Console.WriteLine($"{i}. {habits[i].habitName}");
             }
-            userInput = Console.ReadLine();
+            userHabitSelection = Console.ReadLine();
             Console.Clear();
-            return userInput;
+            Console.WriteLine("Enter the occurrence date in yyyy-MM-dd format (enter 0 for today's date).");
+            bool invalidInput = true;
+            while (invalidInput)
+            {
+                userDateSelection = Console.ReadLine();
+                if (userDateSelection == "0")
+                {
+                    userDateSelection = dateTime.ToString("yyyy-MM-dd");
+                    invalidInput = false;
+                }
+                else
+                {
+                    if (DateTime.TryParseExact(userDateSelection, "yyyy-MM-dd", new CultureInfo("en-US"), DateTimeStyles.None, out dateTime))
+                    {
+                        invalidInput = false;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid date format. Enter the occurrence date in yyyy-MM-dd format " +
+                            "(enter 0 for today's date).");
+                    }
+                }
+            }
+            Console.Clear();
+            Console.WriteLine("Enter the quantity: ");
+            userHabitQuantity = Console.ReadLine();
+
+            return "userInput";
         }
 
         public void viewAllRecords(List<HabitOccurrence> allRecords)
