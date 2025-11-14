@@ -15,8 +15,6 @@ namespace HabbitTracker.Views
         }
         public string? MainMenu()
         {
-
-
             string? userInput = null;
             Console.WriteLine("\n          Main Menu           ");
             Console.WriteLine(standardLine);
@@ -33,21 +31,43 @@ namespace HabbitTracker.Views
             return userInput;
         }
 
-        public string? LogOccurrence(List<Habit> habits)
+        public Occurrence LogOccurrence(List<Habit> habits)
         {
             string? userHabitSelection;
             string? userDateSelection;
             string? userHabitQuantity;
+            bool invalidInput = true;
+            int selectedHabit = 0;
             DateTime dateTime = DateTime.Now;
-            Console.WriteLine("Which habit would you like to log?");
-            for (int i = 0; i < habits.Count; i++)
+            int[] availableHabits = new int[habits.Count];
+
+            while (invalidInput)
             {
-                Console.WriteLine($"{i}. {habits[i].habitName}");
+                Console.WriteLine("Which habit would you like to log?");
+                for (int i = 0; i < habits.Count; i++)
+                {
+                    Console.WriteLine($"{habits[i].habitId}. {habits[i].habitName}");
+                    availableHabits[i] = habits[i].habitId;
+                }
+
+                userHabitSelection = Console.ReadLine();
+                if (int.TryParse(userHabitSelection, out selectedHabit))
+                {
+                    if (availableHabits.Contains(selectedHabit))
+                    {
+                        invalidInput = false;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid selection. Type the ID number of the habit, then press Enter.\n");
+                }
+
             }
-            userHabitSelection = Console.ReadLine();
+
             Console.Clear();
             Console.WriteLine("Enter the occurrence date in yyyy-MM-dd format (enter 0 for today's date).");
-            bool invalidInput = true;
+            invalidInput = true;
             while (invalidInput)
             {
                 userDateSelection = Console.ReadLine();
@@ -60,6 +80,7 @@ namespace HabbitTracker.Views
                 {
                     if (DateTime.TryParseExact(userDateSelection, "yyyy-MM-dd", new CultureInfo("en-US"), DateTimeStyles.None, out dateTime))
                     {
+                        DateTime userDate = dateTime;
                         invalidInput = false;
                     }
                     else
@@ -72,8 +93,26 @@ namespace HabbitTracker.Views
             Console.Clear();
             Console.WriteLine("Enter the quantity: ");
             userHabitQuantity = Console.ReadLine();
+            int habitQuantity = 0;
+            invalidInput = true;
+            while (invalidInput)
+            {
+                if (int.TryParse(userHabitQuantity, out int quantity))
+                {
+                    habitQuantity = quantity;
+                    invalidInput = false;
+                }
+                else
+                {
+                    Console.WriteLine("Not a whole number. Enter the quantity: ");
+                    userHabitQuantity = Console.ReadLine();
+                }
 
-            return "userInput";
+            }
+
+            Occurrence occurrence = new Occurrence(selectedHabit, habitQuantity, dateTime);
+
+            return occurrence;
         }
 
         public void viewAllRecords(List<HabitOccurrence> allRecords)

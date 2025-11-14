@@ -29,7 +29,9 @@ namespace HabitTracker.Controllers
                     case "2":
                         selectFromDb = new SelectFromDB();
                         List<Habit> habits = selectFromDb.GetAllHabits();
-                        menuView.LogOccurrence(habits);
+                        Occurrence occurrenceToLog = menuView.LogOccurrence(habits);
+                        InsertIntoDB insertIntoDb = new InsertIntoDB();
+                        insertIntoDb.LogAnOccurrence(occurrenceToLog);
                         break;
                     case "3":
                         // Delete an occurrence

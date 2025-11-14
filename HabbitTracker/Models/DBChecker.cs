@@ -79,39 +79,7 @@ namespace HabitTracker.Models
 ";
                 occurrencesToAdd.ExecuteNonQuery();
 
-                //var verifyInput = connection.CreateCommand();
-                //verifyInput.CommandText = @"select * from occurrences;";
-                //List<Occurrence> tableData = new();
-
-                //SqliteDataReader reader = verifyInput.ExecuteReader();
-
-                //if (reader.HasRows)
-                //{
-                //    while (reader.Read())
-                //    {
-                //        tableData.Add(new Occurrence
-                //        {
-                //            occurrenceId = reader.GetInt32(0),
-                //            habitId = reader.GetInt32(1),
-                //            habitQuantity = reader.GetInt32(2),
-                //            Date = DateTime.ParseExact(reader.GetString(3), "yyyy-MM-dd", new CultureInfo("en-US"))
-                //        });
-                //    }
-                //}
-                //else
-                //{
-                //    Console.WriteLine("No rows found");
-                //}
-
-                //connection.Close();
-
-                //Console.WriteLine("------------------------------------------");
-                //foreach (var occurrences in tableData)
-                //{
-                //    Console.WriteLine($"{occurrences.habitId} - {occurrences.Date.ToString("yyyy-MM-dd")} - Quantity: {occurrences.habitQuantity}");
-                //}
-                //Console.WriteLine("------------------------------------------");
-
+                connection.Close();
             }
 
         }
