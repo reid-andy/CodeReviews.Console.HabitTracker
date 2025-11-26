@@ -34,7 +34,11 @@ namespace HabitTracker.Controllers
                         insertIntoDb.LogAnOccurrence(occurrenceToLog);
                         break;
                     case "3":
-                        // Delete an occurrence
+                        selectFromDb = new SelectFromDB();
+                        allRecords = selectFromDb.GetAllRecords();
+                        int idToDelete = menuView.deleteOneRecord(allRecords);
+                        DeleteFromDB deleteFromDb = new DeleteFromDB();
+                        deleteFromDb.DeleteOneOccurrence(idToDelete);
                         break;
                     case "4":
                         // Update an occurrence

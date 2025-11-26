@@ -120,10 +120,28 @@ namespace HabitTracker.Views
             Console.WriteLine(standardLine);
             foreach (HabitOccurrence occurrence in allRecords)
             {
-                Console.WriteLine($"{occurrence.date.ToString("yyyy-MM-dd")}: {occurrence.habitName} {occurrence.habitQuantity} {occurrence.quantityName}");
+                Console.WriteLine($"ID:{occurrence.occurrenceId} {occurrence.date.ToString("yyyy-MM-dd")}: {occurrence.habitName} {occurrence.habitQuantity} {occurrence.quantityName}");
             }
 
             Console.WriteLine(standardLine);
+        }
+
+        public int deleteOneRecord(List<HabitOccurrence> allRecords)
+        {
+            string? userInput = "";
+            bool invalidInput = true;
+            int idToDelete = -1;
+            this.viewAllRecords(allRecords);
+            Console.Write("Enter the Record ID Number to Delete: ");
+            while (invalidInput)
+            {
+                userInput = Console.ReadLine();
+                if (int.TryParse(userInput, out idToDelete))
+                {
+                    invalidInput = false;
+                }
+            }
+            return idToDelete;
         }
 
     }
