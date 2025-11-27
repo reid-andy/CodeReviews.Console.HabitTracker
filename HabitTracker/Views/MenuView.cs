@@ -150,6 +150,7 @@ namespace HabitTracker.Views
                     invalidInput = false;
                 }
             }
+            Console.Clear();
             return idToDelete;
         }
 
