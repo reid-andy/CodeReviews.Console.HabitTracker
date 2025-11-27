@@ -24,7 +24,7 @@ namespace HabitTracker.Controllers
                     case "1":
                         SelectFromDB selectFromDb = new SelectFromDB();
                         List<HabitOccurrence> allRecords = selectFromDb.GetAllRecords();
-                        menuView.viewAllRecords(allRecords);
+                        menuView.OnlyViewAllRecords(allRecords);
                         break;
                     case "2":
                         selectFromDb = new SelectFromDB();

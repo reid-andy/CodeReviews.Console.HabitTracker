@@ -1,4 +1,5 @@
 ﻿using HabitTracker.Models;
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace HabitTracker.Views
@@ -75,9 +76,9 @@ namespace HabitTracker.Views
                 }
                 else
                 {
-                    if (DateTime.TryParseExact(userDateSelection, "yyyy-MM-dd", new CultureInfo("en-US"), DateTimeStyles.None, out dateTime))
+                    if (DateTime.TryParseExact(userDateSelection, "yyyy-MM-dd", new CultureInfo("en-US"), DateTimeStyles.None, out DateTime newDateTime))
                     {
-                        userDateSelection = dateTime.ToString("yyyy-MM-dd");
+                        userDateSelection = newDateTime.ToString("yyyy-MM-dd");
                         invalidInput = false;
                     }
                     else
@@ -114,7 +115,7 @@ namespace HabitTracker.Views
             return occurrence;
         }
 
-        public void viewAllRecords(List<HabitOccurrence> allRecords)
+        public void ViewAllRecords(List<HabitOccurrence> allRecords)
         {
             Console.WriteLine("All Records:");
             Console.WriteLine(standardLine);
@@ -126,12 +127,20 @@ namespace HabitTracker.Views
             Console.WriteLine(standardLine);
         }
 
+        public void OnlyViewAllRecords(List<HabitOccurrence> allRecords)
+        {
+            this.ViewAllRecords(allRecords);
+            Console.WriteLine("\nPress any key to continue...");
+            Console.ReadKey();
+            Console.Clear();
+        }
+
         public int deleteOneRecord(List<HabitOccurrence> allRecords)
         {
             string? userInput = "";
             bool invalidInput = true;
             int idToDelete = -1;
-            this.viewAllRecords(allRecords);
+            this.ViewAllRecords(allRecords);
             Console.Write("Enter the Record ID Number to Delete: ");
             while (invalidInput)
             {
