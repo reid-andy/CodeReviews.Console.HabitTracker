@@ -12,4 +12,8 @@
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="9.0.10" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="NewFolder\" />
+  </ItemGroup>
+
 </Project>

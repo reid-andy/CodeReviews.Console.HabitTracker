@@ -36,12 +36,15 @@ namespace HabitTracker.Controllers
                     case "3":
                         selectFromDb = new SelectFromDB();
                         allRecords = selectFromDb.GetAllRecords();
-                        int idToDelete = menuView.deleteOneRecord(allRecords);
+                        int idToDelete = menuView.DeleteOneRecord(allRecords);
                         DeleteFromDB deleteFromDb = new DeleteFromDB();
                         deleteFromDb.DeleteOneOccurrence(idToDelete);
                         break;
                     case "4":
-                        // Update an occurrence
+                        selectFromDb = new SelectFromDB();
+                        allRecords = selectFromDb.GetAllRecords();
+                        habits = selectFromDb.GetAllHabits();
+                        menuView.UpdateRecord(allRecords, habits);
                         break;
                     case "5":
                         // Add new habit

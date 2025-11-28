@@ -1,6 +1,7 @@
-﻿using HabitTracker.Models;
-using System.Collections.Generic;
+﻿using HabitTracker.Helpers;
+using HabitTracker.Models;
 using System.Globalization;
+using System.Reflection.Metadata.Ecma335;
 
 namespace HabitTracker.Views
 {
@@ -31,82 +32,19 @@ namespace HabitTracker.Views
 
         public Occurrence LogOccurrence(List<Habit> habits)
         {
-            string userHabitSelection = "";
-            string userDateSelection = "";
-            string userHabitQuantity = "";
-            bool invalidInput = true;
-            int selectedHabit = 0;
-            DateTime dateTime = DateTime.Now;
-            int[] availableHabits = new int[habits.Count];
+            Helpers.Verify verify = new Verify();
 
-            while (invalidInput)
-            {
-                Console.WriteLine("Which habit would you like to log?");
-                for (int i = 0; i < habits.Count; i++)
-                {
-                    Console.WriteLine($"{habits[i].habitId}. {habits[i].habitName}");
-                    availableHabits[i] = habits[i].habitId;
-                }
 
-                userHabitSelection = Console.ReadLine();
-                if (int.TryParse(userHabitSelection, out selectedHabit))
-                {
-                    if (availableHabits.Contains(selectedHabit))
-                    {
-                        invalidInput = false;
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Invalid selection. Type the ID number of the habit, then press Enter.\n");
-                }
-
-            }
+            Console.WriteLine("Which habit would you like to log?");
+            int selectedHabit = verify.HabitSelection(habits);
 
             Console.Clear();
-            Console.WriteLine("Enter the occurrence date in yyyy-MM-dd format (enter 0 for today's date).");
-            invalidInput = true;
-            while (invalidInput)
-            {
-                userDateSelection = Console.ReadLine();
-                if (userDateSelection == "0")
-                {
-                    userDateSelection = dateTime.ToString("yyyy-MM-dd");
-                    invalidInput = false;
-                }
-                else
-                {
-                    if (DateTime.TryParseExact(userDateSelection, "yyyy-MM-dd", new CultureInfo("en-US"), DateTimeStyles.None, out DateTime newDateTime))
-                    {
-                        userDateSelection = newDateTime.ToString("yyyy-MM-dd");
-                        invalidInput = false;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid date format. Enter the occurrence date in yyyy-MM-dd format " +
-                            "(enter 0 for today's date).");
-                    }
-                }
-            }
-            Console.Clear();
-            Console.WriteLine("Enter the quantity: ");
-            userHabitQuantity = Console.ReadLine();
-            int habitQuantity = 0;
-            invalidInput = true;
-            while (invalidInput)
-            {
-                if (int.TryParse(userHabitQuantity, out int quantity))
-                {
-                    habitQuantity = quantity;
-                    invalidInput = false;
-                }
-                else
-                {
-                    Console.WriteLine("Not a whole number. Enter the quantity: ");
-                    userHabitQuantity = Console.ReadLine();
-                }
 
-            }
+            string userDateSelection = verify.DateSelection();
+
+            Console.Clear();
+
+            int habitQuantity = verify.HabitQuantity();
 
             Console.Clear();
 
@@ -135,7 +73,7 @@ namespace HabitTracker.Views
             Console.Clear();
         }
 
-        public int deleteOneRecord(List<HabitOccurrence> allRecords)
+        public int DeleteOneRecord(List<HabitOccurrence> allRecords)
         {
             string? userInput = "";
             bool invalidInput = true;
@@ -152,6 +90,56 @@ namespace HabitTracker.Views
             }
             Console.Clear();
             return idToDelete;
+        }
+
+        public HabitOccurrence UpdateRecord(List<HabitOccurrence> allRecords, List<Habit> habits)
+        {
+            List<int> availableIds = new();
+            foreach (HabitOccurrence habitOccurrence in allRecords)
+            {
+                availableIds.Add(habitOccurrence.occurrenceId);
+            }
+            this.ViewAllRecords(allRecords);
+            Console.WriteLine("\nEnter an ID to update: ");
+            string? userId = Console.ReadLine();
+            int.TryParse(userId, out int idToUpdate);
+            bool invalidInput = true;
+            while (invalidInput)
+            {
+                if (availableIds.Contains(idToUpdate))
+                {
+                    invalidInput = false;
+                }
+                else
+                {
+                    Console.WriteLine("Selected ID not found.");
+                }
+            }
+            HabitOccurrence occurrenceToUpdate = allRecords.Where(i => i.occurrenceId == idToUpdate).FirstOrDefault();
+
+            Console.Clear();
+
+            invalidInput = true;
+            while (invalidInput)
+            {
+                Console.WriteLine($"Current Habit is {occurrenceToUpdate.habitName}. Would you like to update it? (y/n)");
+                ConsoleKeyInfo userSelection = Console.ReadKey();
+                if (userSelection.Key == ConsoleKey.N)
+                {
+                    invalidInput = false;
+                }
+                else if (userSelection.Key == ConsoleKey.Y)
+                {
+                    //update logic
+                }
+                else
+                {
+                    Console.WriteLine("Invalid selection.\n");
+                }
+            }
+
+            return occurrenceToUpdate;
+
         }
 
     }

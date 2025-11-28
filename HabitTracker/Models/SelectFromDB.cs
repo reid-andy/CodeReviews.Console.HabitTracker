@@ -83,5 +83,30 @@ namespace HabitTracker.Models
             }
 
         }
+
+        public List<int> GetAvailableIds()
+        {
+            using (var connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = "SELECT occurrence_id FROM occurrences;";
+
+                SqliteDataReader reader = command.ExecuteReader();
+                List<int> result = new();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        result.Add(reader.GetInt32(0));
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("No Occurrences found.");
+                }
+                return result;
+            }
+        }
     }
 }
