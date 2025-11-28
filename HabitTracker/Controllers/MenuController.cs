@@ -49,7 +49,9 @@ namespace HabitTracker.Controllers
                         updateDb.UpdateOccurrence(occurrenceToUpdate);
                         break;
                     case "5":
-                        // Add new habit
+                        Habit newHabit = menuView.AddHabit();
+                        insertIntoDb = new InsertIntoDB();
+                        insertIntoDb.InsertHabit(newHabit);
                         break;
                     default:
                         Console.WriteLine("\nInvalid command. Please enter a number from 0 to 4\n");

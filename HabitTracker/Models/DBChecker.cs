@@ -24,9 +24,8 @@ namespace HabitTracker.Models
                 habitTableCmd.CommandText =
                     @"CREATE TABLE IF NOT EXISTS habits(
                 habit_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-                habit_name varchar(125) NOT NULL UNIQUE,
-                quantity_name varchar(125) NOT NULL,
-                default_quantity 
+                habit_name varchar(50) NOT NULL UNIQUE,
+                quantity_name varchar(50) NOT NULL
                 )";
 
                 occurrencesTableCmd.CommandText =
@@ -53,10 +52,10 @@ namespace HabitTracker.Models
 
                 var habitsToAdd = connection.CreateCommand();
                 habitsToAdd.CommandText =
-                    @"INSERT OR IGNORE INTO habits(habit_name, quantity_name, default_quantity) VALUES('Water drank', 'Glasses', 1);
-                  INSERT OR IGNORE INTO habits(habit_name, quantity_name, default_quantity) VALUES('Miles Ran', 'Miles', 2);
-                  INSERT OR IGNORE INTO habits(habit_name, quantity_name, default_quantity) VALUES('Mario Levels Completed', 'Levels', 5);
-                  INSERT OR IGNORE INTO habits(habit_name, quantity_name, default_quantity) VALUES('Book Pages Read', 'Pages', 30);
+                    @"INSERT OR IGNORE INTO habits(habit_name, quantity_name) VALUES('Water drank', 'Glasses');
+                  INSERT OR IGNORE INTO habits(habit_name, quantity_name) VALUES('Miles Ran', 'Miles');
+                  INSERT OR IGNORE INTO habits(habit_name, quantity_name) VALUES('Mario Levels Completed', 'Levels');
+                  INSERT OR IGNORE INTO habits(habit_name, quantity_name) VALUES('Book Pages Read', 'Pages');
 ";
                 habitsToAdd.ExecuteNonQuery();
 

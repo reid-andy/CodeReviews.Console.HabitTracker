@@ -88,4 +88,24 @@ internal class Verify
         }
         return habitQuantity;
     }
+
+    public string Name()
+    {
+        bool invalidInput = true;
+        string? name = "";
+        while (invalidInput)
+        {
+            name = Console.ReadLine();
+            if (name.Length == 0 || name.Length > 50)
+            {
+                Console.WriteLine("\nName missing or too long.\n");
+            }
+            else
+            {
+                invalidInput = false;
+                Console.Clear();
+            }
+        }
+        return name;
+    }
 }

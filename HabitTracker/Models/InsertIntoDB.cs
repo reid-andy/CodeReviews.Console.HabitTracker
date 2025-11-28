@@ -18,5 +18,19 @@ namespace HabitTracker.Models
                 connection.Close();
             }
         }
+
+        public void InsertHabit(Habit habit)
+        {
+            using (var connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText =
+                    $"INSERT INTO habits (habit_name, quantity_name) " +
+                    $"VALUES('{habit.habitName}', '{habit.quantityName}');";
+                command.ExecuteNonQuery();
+                connection.Close();
+            }
+        }
     }
 }

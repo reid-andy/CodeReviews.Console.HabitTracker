@@ -1,7 +1,5 @@
 ﻿using HabitTracker.Helpers;
 using HabitTracker.Models;
-using System.Globalization;
-using System.Reflection.Metadata.Ecma335;
 
 namespace HabitTracker.Views
 {
@@ -192,6 +190,18 @@ namespace HabitTracker.Views
 
             return updatedOccurrence;
 
+        }
+
+        public Habit AddHabit()
+        {
+            Console.Clear();
+            Verify verify = new Verify();
+            Console.WriteLine("Enter the habit name (limit 50 characters): ");
+            string habitName = verify.Name();
+            Console.WriteLine("Enter a quantity name for this habit (example: 'miles ran' or 'pages read' (limit 50 characters): ");
+            string quantityName = verify.Name();
+            Habit newHabit = new Habit(habitName, quantityName);
+            return newHabit;
         }
 
     }

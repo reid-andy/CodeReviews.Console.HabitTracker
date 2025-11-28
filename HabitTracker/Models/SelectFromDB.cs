@@ -64,16 +64,11 @@ namespace HabitTracker.Models
                 {
                     while (reader.Read())
                     {
-                        result.Add(new Habit
-                        {
-                            habitId = reader.GetInt32(0),
-                            habitName = reader.GetString(1),
-                            quantityName = reader.GetString(2),
-                            defaultQuantity = reader.GetInt32(3)
-                        });
+                        string habitName = reader.GetString(1);
+                        string quantityName = reader.GetString(2);
+                        int habitId = reader.GetInt32(0);
+                        result.Add(new Habit(habitName, quantityName, habitId));
                     }
-
-
                 }
                 else
                 {
