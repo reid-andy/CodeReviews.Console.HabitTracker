@@ -8,7 +8,7 @@ namespace HabitTracker.Models
         public string? habitName { get; set; }
         public int occurrenceId { get; set; }
         public int habitQuantity { get; set; }
-        public DateTime date { get; set; }
+        public string date { get; set; }
         public string? quantityName { get; set; }
     }
 }

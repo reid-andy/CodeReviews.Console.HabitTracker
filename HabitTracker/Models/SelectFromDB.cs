@@ -32,7 +32,7 @@ namespace HabitTracker.Models
                             habitName = reader.GetString(1),
                             occurrenceId = reader.GetInt32(2),
                             habitQuantity = reader.GetInt32(3),
-                            date = DateTime.ParseExact(reader.GetString(4), "yyyy-MM-dd", new CultureInfo("en-US")),
+                            date = reader.GetString(4),
                             quantityName = reader.GetString(5)
                         });
                     }

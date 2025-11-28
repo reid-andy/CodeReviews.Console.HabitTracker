@@ -44,7 +44,9 @@ namespace HabitTracker.Controllers
                         selectFromDb = new SelectFromDB();
                         allRecords = selectFromDb.GetAllRecords();
                         habits = selectFromDb.GetAllHabits();
-                        menuView.UpdateRecord(allRecords, habits);
+                        Occurrence occurrenceToUpdate = menuView.UpdateRecord(allRecords, habits);
+                        UpdateDB updateDb = new UpdateDB();
+                        updateDb.UpdateOccurrence(occurrenceToUpdate);
                         break;
                     case "5":
                         // Add new habit

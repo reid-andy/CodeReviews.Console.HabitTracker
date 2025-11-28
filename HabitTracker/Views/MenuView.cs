@@ -36,7 +36,7 @@ namespace HabitTracker.Views
 
 
             Console.WriteLine("Which habit would you like to log?");
-            int selectedHabit = verify.HabitSelection(habits);
+            int selectedHabit = verify.HabitSelection(habits).habitId;
 
             Console.Clear();
 
@@ -59,7 +59,7 @@ namespace HabitTracker.Views
             Console.WriteLine(standardLine);
             foreach (HabitOccurrence occurrence in allRecords)
             {
-                Console.WriteLine($"ID:{occurrence.occurrenceId} {occurrence.date.ToString("yyyy-MM-dd")}: {occurrence.habitName} {occurrence.habitQuantity} {occurrence.quantityName}");
+                Console.WriteLine($"ID:{occurrence.occurrenceId} {occurrence.date}: {occurrence.habitName} {occurrence.habitQuantity} {occurrence.quantityName}");
             }
 
             Console.WriteLine(standardLine);
@@ -92,7 +92,7 @@ namespace HabitTracker.Views
             return idToDelete;
         }
 
-        public HabitOccurrence UpdateRecord(List<HabitOccurrence> allRecords, List<Habit> habits)
+        public Occurrence UpdateRecord(List<HabitOccurrence> allRecords, List<Habit> habits)
         {
             List<int> availableIds = new();
             foreach (HabitOccurrence habitOccurrence in allRecords)
@@ -100,45 +100,97 @@ namespace HabitTracker.Views
                 availableIds.Add(habitOccurrence.occurrenceId);
             }
             this.ViewAllRecords(allRecords);
-            Console.WriteLine("\nEnter an ID to update: ");
-            string? userId = Console.ReadLine();
-            int.TryParse(userId, out int idToUpdate);
+            int idToUpdate = -1;
             bool invalidInput = true;
+            HabitOccurrence? occurrenceToUpdate = null;
+            Occurrence? updatedOccurrence = null;
             while (invalidInput)
             {
+                Console.WriteLine("\nEnter an ID to update: ");
+                string? selectedId = Console.ReadLine();
+                int.TryParse(selectedId, out idToUpdate);
                 if (availableIds.Contains(idToUpdate))
                 {
+                    occurrenceToUpdate = allRecords.Where(i => i.occurrenceId == idToUpdate).FirstOrDefault();
+                    updatedOccurrence = new Occurrence(occurrenceToUpdate.habitId, occurrenceToUpdate.habitQuantity, occurrenceToUpdate.date);
+                    updatedOccurrence.occurrenceId = idToUpdate;
                     invalidInput = false;
                 }
                 else
                 {
-                    Console.WriteLine("Selected ID not found.");
+                    Console.WriteLine("Selected ID not found.\n");
                 }
             }
-            HabitOccurrence occurrenceToUpdate = allRecords.Where(i => i.occurrenceId == idToUpdate).FirstOrDefault();
-
             Console.Clear();
+
+            Verify verify = new Verify();
 
             invalidInput = true;
             while (invalidInput)
             {
-                Console.WriteLine($"Current Habit is {occurrenceToUpdate.habitName}. Would you like to update it? (y/n)");
+                Console.WriteLine($"Current Habit is {occurrenceToUpdate.habitName}. Would you like to update it? (y/n) ");
                 ConsoleKeyInfo userSelection = Console.ReadKey();
                 if (userSelection.Key == ConsoleKey.N)
                 {
                     invalidInput = false;
+                    Console.Clear();
                 }
                 else if (userSelection.Key == ConsoleKey.Y)
                 {
-                    //update logic
+                    Console.Clear();
+                    updatedOccurrence.habitId = verify.HabitSelection(habits).habitId;
+                    invalidInput = false;
                 }
                 else
                 {
-                    Console.WriteLine("Invalid selection.\n");
+                    Console.WriteLine("\nInvalid selection.\n");
+                }
+            }
+            invalidInput = true;
+            while (invalidInput)
+            {
+                Console.Clear();
+                Console.WriteLine($"The current date is {occurrenceToUpdate.date}. Would you like to update it? (y/n) ");
+                ConsoleKeyInfo userSelection = Console.ReadKey();
+                if (userSelection.Key == ConsoleKey.N)
+                {
+                    invalidInput = false;
+                    Console.Clear();
+                }
+                else if (userSelection.Key == ConsoleKey.Y)
+                {
+                    Console.Clear();
+                    updatedOccurrence.date = verify.DateSelection();
+                    invalidInput = false;
+                }
+                else
+                {
+                    Console.WriteLine("\nInvalid selection.\n");
+                }
+            }
+            invalidInput = true;
+            while (invalidInput)
+            {
+                Console.WriteLine($"The current quantity is {occurrenceToUpdate.habitQuantity}. Would you like to update it? (y/n) ");
+                ConsoleKeyInfo userSelection = Console.ReadKey();
+                if (userSelection.Key == ConsoleKey.N)
+                {
+                    invalidInput = false;
+                    Console.Clear();
+                }
+                else if (userSelection.Key == ConsoleKey.Y)
+                {
+                    Console.Clear();
+                    updatedOccurrence.habitQuantity = verify.HabitQuantity();
+                    invalidInput = false;
+                }
+                else
+                {
+                    Console.WriteLine("\nInvalid selection.\n");
                 }
             }
 
-            return occurrenceToUpdate;
+            return updatedOccurrence;
 
         }
 

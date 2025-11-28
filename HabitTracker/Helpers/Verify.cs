@@ -5,25 +5,23 @@ using System.Globalization;
 namespace HabitTracker.Helpers;
 internal class Verify
 {
-    public int HabitSelection(List<Habit> habits)
+    public Habit HabitSelection(List<Habit> habits)
     {
-        string userHabitSelection = "";
         bool invalidInput = true;
-        int selectedHabit = 0;
-        int[] availableHabits = new int[habits.Count];
+        Habit selectedHabit = null;
         while (invalidInput)
         {
             for (int i = 0; i < habits.Count; i++)
             {
                 Console.WriteLine($"{habits[i].habitId}. {habits[i].habitName}");
-                availableHabits[i] = habits[i].habitId;
             }
 
-            userHabitSelection = Console.ReadLine();
-            if (int.TryParse(userHabitSelection, out selectedHabit))
+            string? userHabitId = Console.ReadLine();
+            if (int.TryParse(userHabitId, out int habitId))
             {
-                if (availableHabits.Contains(selectedHabit))
+                if (habitId != null)
                 {
+                    selectedHabit = habits.Where(i => i.habitId == habitId).FirstOrDefault();
                     invalidInput = false;
                 }
             }
