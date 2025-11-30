@@ -53,6 +53,43 @@ namespace HabitTracker.Controllers
                         insertIntoDb = new InsertIntoDB();
                         insertIntoDb.InsertHabit(newHabit);
                         break;
+                    case "6":
+                        bool invalidInput = true;
+                        string userSelection = "";
+                        while (invalidInput)
+                        {
+                            userSelection = menuView.ReportSelection();
+                            switch (userSelection)
+                            {
+                                case "0":
+                                    invalidInput = false;
+                                    break;
+                                case "1":
+                                    // Lifetime total report
+                                    selectFromDb = new SelectFromDB();
+                                    List<String[]> result = selectFromDb.GetLifetimeTotals();
+                                    menuView.ReportView(result);
+                                    invalidInput = false;
+                                    break;
+                                case "2":
+                                    // Annual totals report
+                                    invalidInput = false;
+                                    break;
+                                case "3":
+                                    // Most frequent habits report
+                                    invalidInput = false;
+                                    break;
+                                case "4":
+                                    // Least frequent habits report
+                                    invalidInput = false;
+                                    break;
+                                default:
+                                    Console.WriteLine("Invalid selection.");
+                                    break;
+
+                            }
+                        }
+                        break;
                     default:
                         Console.WriteLine("\nInvalid command. Please enter a number from 0 to 4\n");
                         break;

@@ -20,6 +20,7 @@ namespace HabitTracker.Views
             Console.WriteLine("Type 3 to Delete a Record");
             Console.WriteLine("Type 4 to Update a Record");
             Console.WriteLine("Type 5 to Add a New Habit");
+            Console.WriteLine("Type 6 to Select a Report");
             Console.WriteLine("Type 0 to Exit");
             Console.WriteLine($"{standardLine}\n");
 
@@ -187,7 +188,7 @@ namespace HabitTracker.Views
                     Console.WriteLine("\nInvalid selection.\n");
                 }
             }
-
+            Console.Clear();
             return updatedOccurrence;
 
         }
@@ -204,5 +205,38 @@ namespace HabitTracker.Views
             return newHabit;
         }
 
+        public string? ReportSelection()
+        {
+            Console.Clear();
+            Console.WriteLine("\n           Reports           ");
+            Console.WriteLine(standardLine);
+            Console.WriteLine("Type 1 to View Lifetime Totals");
+            Console.WriteLine("Type 2 to View Totals this Year");
+            Console.WriteLine("Type 3 to View Most Frequent Habits");
+            Console.WriteLine("Type 4 to View Least Frequent Habits");
+            Console.WriteLine("Type 0 to Exit");
+            Console.WriteLine($"{standardLine}\n");
+
+            string? userInput = Console.ReadLine();
+            Console.Clear();
+            return userInput;
+        }
+
+        public void ReportView(List<String[]> result)
+        {
+            Console.WriteLine(standardLine);
+            foreach (var item in result)
+            {
+                foreach (var element in item)
+                {
+                    Console.Write(element + " ");
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine(standardLine);
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey();
+            Console.Clear();
+        }
     }
 }

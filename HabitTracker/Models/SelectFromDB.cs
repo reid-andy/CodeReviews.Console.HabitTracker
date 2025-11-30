@@ -79,26 +79,27 @@ namespace HabitTracker.Models
 
         }
 
-        public List<int> GetAvailableIds()
+        public List<String[]> GetLifetimeTotals()
         {
             using (var connection = new SqliteConnection(connectionString))
             {
                 connection.Open();
                 var command = connection.CreateCommand();
-                command.CommandText = "SELECT occurrence_id FROM occurrences;";
+                command.CommandText = "SELECT habit_name, SUM(habit_quantity), quantity_name FROM occurrences " +
+                    "LEFT JOIN habits ON habits.habit_id = occurrences.habit_id GROUP BY habit_name;";
+
+                List<String[]> result = new();
 
                 SqliteDataReader reader = command.ExecuteReader();
-                List<int> result = new();
+
                 if (reader.HasRows)
                 {
                     while (reader.Read())
                     {
-                        result.Add(reader.GetInt32(0));
+                        String[] reportItem = [reader.GetString(0), reader.GetString(1), reader.GetString(2)];
+                        result.Add(reportItem);
                     }
-                }
-                else
-                {
-                    Console.WriteLine("No Occurrences found.");
+
                 }
                 return result;
             }
