@@ -86,7 +86,7 @@ namespace HabitTracker.Models
                 connection.Open();
                 var command = connection.CreateCommand();
                 command.CommandText = "SELECT habit_name, SUM(habit_quantity), quantity_name FROM occurrences " +
-                    "LEFT JOIN habits ON habits.habit_id = occurrences.habit_id GROUP BY habit_name;";
+                    "LEFT JOIN habits ON habits.habit_id = occurrences.habit_id GROUP BY habit_name ORDER BY SUM(habit_quantity) desc;";
 
                 List<String[]> result = new();
 
@@ -99,9 +99,53 @@ namespace HabitTracker.Models
                         String[] reportItem = [reader.GetString(0), reader.GetString(1), reader.GetString(2)];
                         result.Add(reportItem);
                     }
-
                 }
                 return result;
+            }
+        }
+
+        public List<String[]> GetAnnualTotals()
+        {
+            using (var connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = "select habit_name, sum(habit_quantity), quantity_name from occurrences " +
+                "left join habits on habits.habit_id = occurrences.habit_id  where strftime('%Y', date) = strftime('%Y', 'now')" +
+                "group by habit_name order by sum(habit_quantity) desc;";
+
+                List<String[]> result = new();
+
+                SqliteDataReader reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        String[] reportItem = [reader.GetString(0), reader.GetString(1), reader.GetString(2)];
+                        result.Add(reportItem);
+                    }
+                }
+                return result;
+            }
+        }
+
+        public String GetTotalOccurrences()
+        {
+            using (var connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = "SELECT COUNT(occurrence_id) FROM occurrences;";
+
+                var scalar = command.ExecuteScalar();
+                if (scalar == null || scalar == DBNull.Value)
+                {
+                    // Handle error
+                }
+                long result = Convert.ToInt64(scalar);
+
+                return result.ToString();
             }
         }
     }

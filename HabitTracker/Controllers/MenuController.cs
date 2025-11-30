@@ -72,15 +72,15 @@ namespace HabitTracker.Controllers
                                     invalidInput = false;
                                     break;
                                 case "2":
-                                    // Annual totals report
+                                    selectFromDb = new SelectFromDB();
+                                    result = selectFromDb.GetAnnualTotals();
+                                    menuView.ReportView(result);
                                     invalidInput = false;
                                     break;
                                 case "3":
-                                    // Most frequent habits report
-                                    invalidInput = false;
-                                    break;
-                                case "4":
-                                    // Least frequent habits report
+                                    selectFromDb = new SelectFromDB();
+                                    String occurrenceCount = selectFromDb.GetTotalOccurrences();
+                                    menuView.OccurrenceCount(occurrenceCount);
                                     invalidInput = false;
                                     break;
                                 default:

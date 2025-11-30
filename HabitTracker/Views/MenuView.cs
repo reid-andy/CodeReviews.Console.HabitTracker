@@ -6,6 +6,7 @@ namespace HabitTracker.Views
     internal class MenuView
     {
         private string standardLine = "------------------------------";
+        private string anyKey = "Press any key to continue...";
         public void WriteWelcome()
         {
             Console.WriteLine("Welcome to Habit Tracker!");
@@ -212,8 +213,7 @@ namespace HabitTracker.Views
             Console.WriteLine(standardLine);
             Console.WriteLine("Type 1 to View Lifetime Totals");
             Console.WriteLine("Type 2 to View Totals this Year");
-            Console.WriteLine("Type 3 to View Most Frequent Habits");
-            Console.WriteLine("Type 4 to View Least Frequent Habits");
+            Console.WriteLine("Type 3 to View Total Number of Habits Logged");
             Console.WriteLine("Type 0 to Exit");
             Console.WriteLine($"{standardLine}\n");
 
@@ -234,7 +234,15 @@ namespace HabitTracker.Views
                 Console.WriteLine();
             }
             Console.WriteLine(standardLine);
-            Console.WriteLine("Press any key to continue...");
+            Console.WriteLine(anyKey);
+            Console.ReadKey();
+            Console.Clear();
+        }
+
+        public void OccurrenceCount(String occurrenceCount)
+        {
+            Console.WriteLine($"You have logged {occurrenceCount} total habits.\n");
+            Console.WriteLine(anyKey);
             Console.ReadKey();
             Console.Clear();
         }
